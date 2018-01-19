@@ -3,7 +3,7 @@ Shelling out in Ruby is way harder than it should be. Shellator, which is in
 part a gem _just because it's a good name_, wraps `Open.popen3` in a consistent,
 mostly-not-dumb way.
 
-I've been dragging around a variant of [this blog post]() for about three years
+I've been dragging around a variant of [this blog post] for about three years
 now and finally, _finally_, I have shamed myself into packaging it as a library
 for use by friends, enemies, minions, and miscellaneous alike.
 
