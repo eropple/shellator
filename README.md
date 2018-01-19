@@ -62,8 +62,13 @@ Shellator.noninteractive("cat | tr abcdef ABCDEF",
 ```
 
 ### Interactive commands ###
-Not currently supported. I'd like to figure out a way to weld the `popen3`
-approach
+Not currently supported. If there was demand for this, I'd like to figure out a
+way to weld the `popen3` approach to something like `PTY` for an Expect-like
+experience.
+
+That also probably means a state machine.
+
+Suggestions/pull requests gratefully solicited.
 
 ## Development
 After checking out the repo, run `bin/setup` to install dependencies. You can
