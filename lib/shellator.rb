@@ -3,7 +3,7 @@ require "shellator/version"
 require "open3"
 
 module Shellator
-  def self.noninteractive(cmd, in_directory: nil, stdin_content: [], stdout:, stderr:)
+  def self.noninteractive(cmd, in_directory: nil, stdin_content: [], stdin_newlines: true, stdout:, stderr:)
     raise "cmd must be a String or array of Strings." \
       unless cmd.is_a?(String) || (cmd.is_a?(Array) && cmd.all? { |c| c.is_a?(Stirng) })
     raise "stdout must be a Proc." unless stdout.is_a?(Proc)
@@ -19,7 +19,11 @@ module Shellator
       Open3.popen3(computed_cmd) do |stdin_stream, stdout_stream, stderr_stream, thread|
         stdin_content.each do |input_line|
           stdin_stream.write(input_line)
+
+          stdin_stream.write("\n") unless input_line[-1] == "\n" || !stdin_newlines
         end
+
+        stdin_stream.close
 
         { stdout_stream => stdout, stderr_stream => stderr }.each_pair do |stream, callback|
           Thread.new do

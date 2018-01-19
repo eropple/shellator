@@ -26,7 +26,7 @@ Or install it yourself as:
 
 ## Usage
 ### Non-interactive commands ###
-```
+```rb
 require 'shellator'
 
 Shellator.noninteractive("docker build .",
@@ -35,7 +35,31 @@ Shellator.noninteractive("docker build .",
 
 ```
 
+### Providing non-interactively ###
+`stdin_content` is optional. A newline will be appended after the content is
+written to the subprocess stdout unless `stdin_newlines` is set to false.
 
+```rb
+require 'shellator'
+
+Shellator.noninteractive("cat | tr abcdef ABCDEF",
+                         stdin_content: ["a b c", "d e f"],
+                         stdout: ->(line) { puts line },
+                         stderr: ->(line) { puts "ERR: #{line}" })
+
+# Output (on stdout):
+# A B C
+# D E F
+
+Shellator.noninteractive("cat | tr abcdef ABCDEF",
+                         stdin_content: ["a b c", "d e f"],
+                         stdin_newlines: false,
+                         stdout: ->(line) { puts line },
+                         stderr: ->(line) { puts "ERR: #{line}" })
+
+# Output (on stdout):
+# A B CD E F
+```
 
 ### Interactive commands ###
 Not currently supported. I'd like to figure out a way to weld the `popen3`
